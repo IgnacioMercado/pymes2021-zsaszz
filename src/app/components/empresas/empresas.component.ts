@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Empresas } from '../../models/Empresas';
+import { Empresas } from '../../models/empresas';
 import { EmpresasService } from '../../services/Empresas.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalDialogService } from '../../services/modal-dialog.service';
@@ -119,7 +119,4 @@ export class EmpresasComponent implements OnInit {
       this.Items = res;
     });
   }
-
-
-
 }
