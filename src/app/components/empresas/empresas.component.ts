@@ -13,7 +13,7 @@ import { ModalDialogService } from '../../services/modal-dialog.service';
 })
 export class EmpresasComponent implements OnInit {
   Items: Empresas[] = [];
-  Accion: string = 'L';
+  accion: string = 'L';
   FormAlta: FormGroup = new FormGroup({
     IdEmpresa: new FormControl(0),
     RazonSocial: new FormControl('', [Validators.required]),
@@ -32,12 +32,94 @@ export class EmpresasComponent implements OnInit {
 
 
   constructor(
-    private contactoService: ContactoService,
+    private empresasService: EmpresasService,
     private modalDialogService: ModalDialogService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.GetEmpresas();
+  }
 
-  
+  ocultarTabla(){
+    this.accion = 'A';
+  }
+
+  grabar() {
+    if (this.FormAlta.invalid) {
+      return;
+    }
+
+      const itemCopy = { ...this.FormAlta.value };
+      var arrFecha = itemCopy.FechaFundacion.substr(0, 10).split('/');
+      itemCopy.FechaFundacion = new Date(
+        arrFecha[2],
+        arrFecha[1] - 1,
+        arrFecha[0]
+      ).toISOString();
+      console.log(itemCopy);
+      this.empresasService.post(itemCopy).subscribe((res: any) => {
+        this.mostrarTabla();
+        this.modalDialogService.Alert('Empresa agregado correctamente.');
+        this.GetEmpresas();
+      });
+  }
+
+  mostrarTabla() {
+    this.FormAlta.reset();
+    this.accion = 'L';
+  }
+
+  Eliminar(item) {
+    var resp = confirm(
+      '¿Esta seguro de eliminar el registro de la empresa "' +
+        item.RazonSocial +
+        '"?'
+    );
+    if (resp) {
+      this.empresasService.delete(item.IdEmpresa).subscribe((res: any) => {
+        this.modalDialogService.Alert('Registro eliminado correctamente');
+        this.GetEmpresas();
+      });
+    }
+  }
+
+  Modificar(Item) {
+    this.accion = 'M';
+    this.empresasService.getById(Item.IdEmpresa).subscribe((res: any) => {
+      this.FormAlta.patchValue(res);
+      var arrFecha = res.FechaFundacion.substr(0, 10).split('-');
+      this.FormAlta.controls.FechaFundacion.patchValue(
+        arrFecha[2] + '/' + arrFecha[1] + '/' + arrFecha[0]
+      );
+    });
+  }
+
+  modificarEmpresa() {
+    const itemCopy = { ...this.FormAlta.value };
+    console.log(itemCopy);
+    var arrFecha = itemCopy.FechaFundacion.substr(0, 10).split('/');
+    itemCopy.FechaFundacion = new Date(
+      arrFecha[2],
+      arrFecha[1] - 1,
+      arrFecha[0]
+    ).toISOString();
+    console.log('ID');
+    this.empresasService
+      .put(itemCopy, itemCopy.IdEmpresa)
+      .subscribe((res: any) => {
+        this.mostrarTabla();
+        this.modalDialogService.Alert('Empresa modificada correctamente.');
+        this.GetEmpresas();
+      });
+  }
+
+
+  GetEmpresas() {
+    this.empresasService.get().subscribe((res: Empresas[]) => {
+      this.Items = res;
+    });
+  }
+
+
 
 }
