@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Empresas } from '../../models/empresas';
-import { EmpresasService } from '../../services/Empresas.service';
+import { EmpresasService } from '../../services/empresas.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalDialogService } from '../../services/modal-dialog.service';
-
-
 
 @Component({
   selector: 'app-empresas',
   templateUrl: './empresas.component.html',
-  styleUrls: ['./empresas.component.css']
+  styleUrls: ['./empresas.component.css'],
 })
 export class EmpresasComponent implements OnInit {
   Items: Empresas[] = [];
@@ -29,18 +27,16 @@ export class EmpresasComponent implements OnInit {
     ]),
   });
 
-
-
   constructor(
     private empresasService: EmpresasService,
     private modalDialogService: ModalDialogService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.GetEmpresas();
   }
 
-  ocultarTabla(){
+  ocultarTabla() {
     this.accion = 'A';
   }
 
@@ -49,19 +45,19 @@ export class EmpresasComponent implements OnInit {
       return;
     }
 
-      const itemCopy = { ...this.FormAlta.value };
-      var arrFecha = itemCopy.FechaFundacion.substr(0, 10).split('/');
-      itemCopy.FechaFundacion = new Date(
-        arrFecha[2],
-        arrFecha[1] - 1,
-        arrFecha[0]
-      ).toISOString();
-      console.log(itemCopy);
-      this.empresasService.post(itemCopy).subscribe((res: any) => {
-        this.mostrarTabla();
-        this.modalDialogService.Alert('Empresa agregado correctamente.');
-        this.GetEmpresas();
-      });
+    const itemCopy = { ...this.FormAlta.value };
+    var arrFecha = itemCopy.FechaFundacion.substr(0, 10).split('/');
+    itemCopy.FechaFundacion = new Date(
+      arrFecha[2],
+      arrFecha[1] - 1,
+      arrFecha[0]
+    ).toISOString();
+    console.log(itemCopy);
+    this.empresasService.post(itemCopy).subscribe((res: any) => {
+      this.mostrarTabla();
+      this.modalDialogService.Alert('Empresa agregado correctamente.');
+      this.GetEmpresas();
+    });
   }
 
   mostrarTabla() {
@@ -112,7 +108,6 @@ export class EmpresasComponent implements OnInit {
         this.GetEmpresas();
       });
   }
-
 
   GetEmpresas() {
     this.empresasService.get().subscribe((res: Empresas[]) => {

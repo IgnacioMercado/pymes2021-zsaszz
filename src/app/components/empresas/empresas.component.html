@@ -1,7 +1,186 @@
-    <!-- Botones -->
-<div class="row justify-content-center botones">
-    <button type="button" class="btn btn-primary" (click)="Agregar()">
-          <i class="fa fa-plus"> </i> 
-          Agregar empresa
+<div class="container" *ngIf="accion == 'L'">
+    <button
+      type="button"
+      class="btn btn-primary botonAlta"
+      (click)="ocultarTabla()"
+    >
+      <i class="fa fa-plus"> Agregar empresa</i>
     </button>
- </div>
+  
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th class="text-center">Razon Social</th>
+          <th class="text-center">Cantidad Empleados</th>
+          <th class="text-center">Fecha de fundacion</th>
+          <th class="text-center">Modificar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of Items">
+          <td class="text-center">{{ item.RazonSocial }}</td>
+          <td class="text-center">{{ item.CantidadEmpleados }}</td>
+          <td class="text-center">{{ item.FechaFundacion | date }}</td>
+          <td class="text-center">
+            <button
+              class="btn btn-outline-primary fa fa-edit"
+              (click)="Modificar(item)"
+            ></button>
+            <button
+              class="btn btn-outline-danger fa fa-trash botonEliminar"
+              (click)="Eliminar(item)"
+            ></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="container" *ngIf="accion == 'A' || accion == 'M'">
+    <form name="FormAlta" [formGroup]="FormAlta">
+      <!-- Campo Razon Social-->
+  
+      <div class="row">
+        <div class="col-4">
+          <label class="col-form-label" for="RazonSocial"
+            >Razon Social<span class="text-danger">*</span>:
+          </label>
+        </div>
+  
+        <div class="col-8">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="RazonSocial"
+            [ngClass]="{
+              'is-invalid':
+                FormAlta.controls['RazonSocial'].touched &&
+                FormAlta.controls['RazonSocial'].errors
+            }"
+          />
+          <div
+            class="text-danger"
+            *ngIf="
+              FormAlta.controls['RazonSocial'].hasError('required') &&
+              FormAlta.controls['RazonSocial'].touched
+            "
+          >
+            Dato requerido.
+          </div>
+        </div>
+      </div>
+  
+      <!-- Campo cantidad de empleados -->
+  
+      <div class="row">
+        <div class="col-4">
+          <label class="col-form-label" for="RazonSocial"
+            >Cantidad de empleados<span class="text-danger">*</span>:
+          </label>
+        </div>
+  
+        <div class="col-8">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="CantidadEmpleados"
+            [ngClass]="{
+              'is-invalid':
+                FormAlta.controls['CantidadEmpleados'].touched &&
+                FormAlta.controls['CantidadEmpleados'].errors
+            }"
+          />
+          <div
+            class="text-danger"
+            *ngIf="
+              FormAlta.controls['CantidadEmpleados'].hasError('required') &&
+              FormAlta.controls['CantidadEmpleados'].touched
+            "
+          >
+            Dato requerido.
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="
+              FormAlta.controls['CantidadEmpleados'].hasError('pattern') &&
+              FormAlta.controls['CantidadEmpleados'].touched
+            "
+          >
+            Ingrese un numero de empleados valido.
+          </div>
+        </div>
+      </div>
+  
+      <!--  Campo fecha de fundación -->
+  
+      <div class="row">
+        <div class="col-4">
+          <label class="col-form-label" for="RazonSocial"
+            >Fecha de fundacion<span class="text-danger">*</span>:
+          </label>
+        </div>
+  
+        <div class="col-8">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="FechaFundacion"
+            [ngClass]="{
+              'is-invalid':
+                FormAlta.controls['FechaFundacion'].touched &&
+                FormAlta.controls['FechaFundacion'].errors
+            }"
+          />
+  
+          <div
+            class="text-danger"
+            *ngIf="
+              FormAlta.controls['FechaFundacion'].hasError('required') &&
+              FormAlta.controls['FechaFundacion'].touched
+            "
+          >
+            Dato requerido.
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="
+              FormAlta.controls['FechaFundacion'].hasError('pattern') &&
+              FormAlta.controls['FechaFundacion'].touched
+            "
+          >
+            Ingrese una fecha valida (dd/mm/yyyy).
+          </div>
+        </div>
+      </div>
+    </form>
+  
+    <div class="row justify-content-center">
+      <button
+        type="button"
+        class="btn btn-primary botonAlta"
+        (click)="mostrarTabla()"
+      >
+        <i class="fa fa-trash"> Cancelar</i>
+      </button>
+  
+      <button
+        type="button"
+        [disabled]="FormAlta.invalid"
+        class="btn btn-primary botonAlta"
+        (click)="grabar()"
+        *ngIf="accion == 'A'"
+      >
+        <i class="fa fa-plus"> Agregar </i>
+      </button>
+      <button
+        type="button"
+        [disabled]="FormAlta.invalid"
+        class="btn btn-primary botonAlta"
+        (click)="modificarEmpresa()"
+        *ngIf="accion == 'M'"
+      >
+        <i class="fa fa-update"> Modificar</i>
+      </button>
+    </div>
+  </div>
+  
