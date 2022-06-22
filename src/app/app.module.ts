@@ -25,6 +25,7 @@ import { VentasComponent } from './components/ventas/ventas.component';
 import { VentasConsultasComponent } from './components/ventas-consultas/ventas-consultas.component';
 import { ClientesInfoComponent } from './components/clientes-info/clientes-info.component';
 import { ContactosComponent } from './components/contactos/contactos.component';
+import { EmpresasComponent } from './components/empresas/empresas.component';
 
 import { MyInterceptor } from './shared/my-interceptor';
 
@@ -50,6 +51,7 @@ import { FormFocusDirective } from './shared/form-focus.directive';
         { path: 'ventas', component: VentasComponent },
         { path: 'ventasconsultas', component: VentasConsultasComponent },
         { path: 'contactos', component: ContactosComponent },
+        { path: 'empresas', component: EmpresasComponent }
         //Ref Angular LazyLoad #1  https://angular.io/guide/lazy-loading-ngmodules
         {
           path: 'clientes',
@@ -84,6 +86,7 @@ import { FormFocusDirective } from './shared/form-focus.directive';
     VentasComponent,
     VentasConsultasComponent,
     ContactosComponent,
+    EmpresasComponent,
     //FormFocusDirective
   ],
   entryComponents: [ModalDialogComponent],
