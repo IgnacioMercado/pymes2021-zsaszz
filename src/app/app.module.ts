@@ -51,7 +51,7 @@ import { FormFocusDirective } from './shared/form-focus.directive';
         { path: 'ventas', component: VentasComponent },
         { path: 'ventasconsultas', component: VentasConsultasComponent },
         { path: 'contactos', component: ContactosComponent },
-        { path: 'empresas', component: EmpresasComponent }
+        { path: 'empresas', component: EmpresasComponent },
         //Ref Angular LazyLoad #1  https://angular.io/guide/lazy-loading-ngmodules
         {
           path: 'clientes',
