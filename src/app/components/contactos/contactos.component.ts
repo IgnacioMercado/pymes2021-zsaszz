@@ -7,7 +7,7 @@ import { ModalDialogService } from '../../services/modal-dialog.service';
 @Component({
   selector: 'app-contactos',
   templateUrl: './contactos.component.html',
-  styleUrls: ['./contactos.component.css']
+  styleUrls: ['./contactos.component.css'],
 })
 export class ContactosComponent implements OnInit {
   Items: Contactos[] = [];
