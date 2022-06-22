@@ -13,7 +13,10 @@ export class ContactosComponent implements OnInit {
   Items: Contactos[] = [];
   Mostrar: string = 'L';
   FormAlta: FormGroup = new FormGroup({
-    Nombre: new FormControl('', [Validators.required]),
+    Nombre: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(50),
+    ]),
     FechaNacimiento: new FormControl('', [
       Validators.required,
       Validators.pattern(

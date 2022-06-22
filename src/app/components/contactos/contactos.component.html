@@ -53,6 +53,10 @@
       >
         Dato requerido
       </div>
+      <div class="text-danger" *ngIf="
+        FormAlta.controls.Nombre.errors?.maxlength ">
+        Maximo de 50 caracteres.
+      </div>
     </div>
   </div>
 
